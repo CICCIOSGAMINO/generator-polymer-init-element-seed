@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2017 @cicciosgamino Author. All rights reserved.
+This code may only be used under the license found at https://github.com/CICCIOSGAMINO/LICENSE.txt
+
+Attention  > Polymer 2.0 in USE ! 
+-->
+
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="<%= elementName %>">
+  <template>
+
+    <!-- Style -->
+    <style>
+
+      :host {
+        display: block;
+      }
+
+    </style>
+    <h2>Name : [[name]]</h2>
+
+    <slot></slot>
+
+  </template>
+  
+  <script>
+
+    // Extend Polymer.Element base class
+    class <%= className %> extends Polymer.Element {
+      
+      static get is(){ return '<%= elementName %>' }
+      
+      static get config(){
+        // properties, observers meta data
+        return {
+          properties: {
+            name: {
+              type: String,
+              value: '<%= elementName %>',
+              observer: '_nameChanged'
+            }
+          }
+        };
+      }
+
+      connectedCallback(){
+        super.connectedCallback();
+ 
+      }
+
+      disconnectedCallback(){
+
+      }
+
+      attributeChangeCallback(){
+
+      }
+
+      _nameChanged(name, oldName){
+        // dirty check 
+        
+        // if(oldProp1) ... 
+        // if(prop1) ... 
+
+        // Select the elements 
+        // this.$.
+        // this.$.
+      }
+
+
+    }
+    
+    // Register custom element definition using standard platform API
+    customElements.define(<%= className %>.is, <%= className %>);
+  </script>
+</dom-module>
