@@ -19,9 +19,12 @@ yo polymer-init-element-seed
 ## Element 
 You can create a simple Polymer2.0 element, with no iron-page and the stuff you can create in 
 production mode development, as is a speed dev option for create a base bone Polymer 2.0 element, 
-here the skeleton for the element : 
+here the skeleton for the element! (updated 26/02/2017) : 
 
-```javascript
+```html
+
+<!-- Load the Polymer.Element base class -->
+<!-- Attention  > Polymer 2.0#preview in USE !  -->
 
 <!-- Load the Polymer.Element base class -->
 <link rel="import" href="bower_components/polymer/polymer-element.html">
@@ -49,22 +52,31 @@ here the skeleton for the element :
     class MyElement extends Polymer.Element {
       
       static get is(){ return 'my-element' }
-      
-      static get config(){
-        // properties, observers meta data
+
+      // properties 
+      static get properties() {
         return {
-          properties: {
-            name: {
-              type: String,
-              value: 'my-element',
-              observer: '_nameChanged'
-            }
+          name: {
+            type: String,
+            value: 'my-element'
           }
         };
       }
 
+      // observers 
+      static get observers() {
+        return ['_nameChanged(name)'];
+      }
+      
+      // constructor 
+      constructor() {
+        super();
+        console.log('my-element > created');
+      }
+
       connectedCallback(){
         super.connectedCallback();
+        console.log('my-element > attached');
  
       }
 
@@ -76,11 +88,22 @@ here the skeleton for the element :
 
       }
 
-      _nameChanged(name, oldName){
-        // dirty check 
+      // ready > add listeners and attributes at appropriate callback
+      ready() {
+        this.addEventListener('click', (e) => {
+          this._handleClick(e);
+        });
         
-        // if(oldProp1) ... 
-        // if(prop1) ... 
+        super.ready();
+        console.log('my-element > ready');
+      }
+
+      _handleClick(e) {
+        console.log(e.type);
+      }
+
+      _nameChanged(name){
+        console.log(`Name: ${name}`);
 
         // Select the elements 
         // this.$.
@@ -94,6 +117,7 @@ here the skeleton for the element :
     customElements.define(MyElement.is, MyElement);
   </script>
 </dom-module>
+
 
 ```
 
@@ -120,7 +144,7 @@ generator, this is an example of file :
 
   <title>Polymer element - Test </title>
 
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
   
   <link rel="import" href="my-element.html">
@@ -148,10 +172,15 @@ python simple server) :
 
 ```bash
 cd your_project 
+
+// simple python web server 
 python -m SimpleHTTPServer 8080 
+
+// default polymer server
+polymer serve
 ```
 
-Open the browser and navigate the address **localhost:8080** ! 
+Open the browser and navigate the address **localhost:8000** or **localhost:8080** ! 
 
 
 ## Important 
